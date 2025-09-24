@@ -239,4 +239,3 @@ playerObjN.gnuType = SuperUpdate.GnuType.Engen;
 Program.su.AddObject(playerObjN);
 ```
 
-```
