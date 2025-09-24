@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация PEngen Engine</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <style>
+        /* Базовые стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e; /* Темный фон */
+            color: #d4d4d4; /* Светлый текст */
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #252526; /* Основной блок */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1, h2, h3 {
+            color: #569cd6; /* Синий/голубой акцент */
+            border-bottom: 2px solid #3c3c3c;
+            padding-bottom: 5px;
+        }
+        h2 { margin-top: 40px; }
+        h3 { margin-top: 25px; color: #d4d4d4; }
+        
+        /* Стили для таблиц */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            border: 1px solid #3c3c3c;
+        }
+        th, td {
+            border: 1px solid #3c3c3c;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3c3c3c;
+            color: #d4d4d4;
+            font-weight: bold;
+        }
+        
+        /* Стили для кода */
+        pre {
+            margin: 15px 0;
+            border-radius: 6px;
+            overflow-x: auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Стили для кнопок скачивания */
+        .download-bar {
+            background-color: #333333;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+            margin: 0 -30px; /* Расширяем на всю ширину контейнера */
+        }
+        .download-bar-top {
+            margin: -30px -30px 30px -30px;
+            border-radius: 8px 8px 0 0;
+        }
+        .download-button {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 12px 25px;
+            background-color: #007acc; /* Яркий синий */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .download-button:hover {
+            background-color: #005f99;
+            transform: translateY(-1px);
+        }
+
+        /* Примечания */
+        .note {
+            background-color: #3c3c3c;
+            color: #9cdcfe;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 5px solid #007acc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="download-bar download-bar-top">
+        <a href="https://codeload.github.com/PerrotSoft/PEngen-Web/zip/refs/heads/main" class="download-button" download="PEngine.js">Скачать PEngine Web</a>
+    </div>
+
+    <h1>Документация PEngen Engine Web</h1>
+
+    <p>PEngen Web — это **JavaScript-движок** с раздельной архитектурой, вдохновленной SFML, для управления графикой (**GnuEngenSFML**) и игровой логикой/физикой (**GameEngine**).</p>
+
+    <h2>1. Компонент GnuEngenSFML (Графика и Ввод)</h2>
+
+    <p>Отвечает за отрисовку, окно и обработку интерактивных элементов.</p>
+
+    <h3>1.1. Класс <code>GnuEngenSFML</code> (Ядро графики)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Метод/Свойство</th>
+                <th>Описание</th>
+                <th>Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>new GnuEngenSFML()</code></td>
+                <td>Создает экземпляр графического движка.</td>
+                <td><code class="language-javascript">Program.gEngine = new GnuEngenSFML();</code></td>
+            </tr>
+            <tr>
+                <td><code>InitWindow(w, h, title)</code></td>
+                <td>Инициализирует окно (Canvas) и показывает интро.</td>
+                <td><code class="language-javascript">gEngine.InitWindow(800, 600, "My Game");</code></td>
+            </tr>
+            <tr>
+                <td><code>AddObject(obj)</code></td>
+                <td>Добавляет объект <code>D2Gun</code> для отрисовки.</td>
+                <td><code class="language-javascript">gEngine.AddObject(mySprite);</code></td>
+            </tr>
+            <tr>
+                <td><code>Draw()</code></td>
+                <td>Основная функция отрисовки. **Должна вызываться в цикле игры.**</td>
+                <td><code class="language-javascript">requestAnimationFrame(loop);</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>1.2. Класс <code>GnuEngenSFML.D2Gun</code> (Графический объект)</h3>
+    <p>Базовый класс для всех отрисовываемых элементов: спрайтов, текста, кнопок.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th>Тип</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>x, y, sx, sy</code></td>
+                <td>Число</td>
+                <td>Позиция и размеры.</td>
+            </tr>
+            <tr>
+                <td><code>type</code></td>
+                <td><code>ObjectType</code></td>
+                <td>**Обязательный** тип объекта (Sprite, Button, Text и т.д.).</td>
+            </tr>
+            <tr>
+                <td><code>texture</code></td>
+                <td><code>Image</code></td>
+                <td>Объект изображения для спрайтов.</td>
+            </tr>
+            <tr>
+                <td><code>base_color</code></td>
+                <td>Число (Hex)</td>
+                <td>Цвет (например, <code>0xFF0000</code>).</td>
+            </tr>
+            <tr>
+                <td><code>onClick</code></td>
+                <td>Функция</td>
+                <td>Обработчик, вызываемый при клике (для кнопок).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Пример создания TextButton</h4>
+    <pre><code class="language-javascript">const startBtn = new GnuEngenSFML.D2Gun();
+startBtn.x = 100; startBtn.y = 200;
+startBtn.sx = 200; startBtn.sy = 50;
+startBtn.type = GnuEngenSFML.ObjectType.TextButton;
+startBtn.text = "Начать игру";
+startBtn.font = Program.font;
+startBtn.onClick = () => console.log("Game Start!");
+Program.gEngine.AddObject(startBtn);</code></pre>
+
+    ---
+
+    <h2>2. Компонент GameEngine (Физика и Логика)</h2>
+
+    <p>Отвечает за физическую симуляцию, обновление положения объектов и коллизии.</p>
+
+    <h3>2.1. Класс <code>GameEngine.GameObject</code> (Физический объект)</h3>
+    <p>Объекты, участвующие в физическом мире.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th>Тип</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>vx, vy</code></td>
+                <td>Число</td>
+                <td>Скорость (Velocity) по осям X и Y.</td>
+            </tr>
+            <tr>
+                <td><code>width, height</code></td>
+                <td>Число</td>
+                <td>Размеры для расчета **AABB коллизий**.</td>
+            </tr>
+            <tr>
+                <td><code>isStatic</code></td>
+                <td>Булево</td>
+                <td>Если <code>true</code>, объект неподвижен (по умолчанию <code>false</code>).</td>
+            </tr>
+            <tr>
+                <td><code>mass</code></td>
+                <td>Число</td>
+                <td>Масса объекта (влияет на отскок).</td>
+            </tr>
+            <tr>
+                <td><code>OnUpdate</code></td>
+                <td>Функция</td>
+                <td>Пользовательская логика, вызывается каждый кадр: <code>(self) => { ... }</code>.</td>
+            </tr>
+            <tr>
+                <td><code>visual</code></td>
+                <td><code>D2Gun</code></td>
+                <td>Привязанный графический объект. Его позиция обновляется движком.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Пример создания физического объекта</h4>
+    <pre><code class="language-javascript">const blockVisual = new GnuEngenSFML.D2Gun();
+blockVisual.base_color = 0xFF0000;
+blockVisual.type = GnuEngenSFML.ObjectType.Cube;
+
+const blockPhysics = new GameEngine.GameObject();
+blockPhysics.x = 50; blockPhysics.y = 50;
+blockPhysics.width = 50; blockPhysics.height = 50;
+blockPhysics.mass = 5.0;
+blockPhysics.vx = 100; // Движение вправо
+blockPhysics.visual = blockVisual;
+
+Program.engine.AddObject(blockPhysics);</code></pre>
+
+    ---
+
+    <h2>3. Вспомогательные Системные Классы</h2>
+
+    <h3>3.1. Класс <code>Clock</code> (Время)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Метод</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>restart().asSeconds()</code></td>
+                <td>Возвращает **deltaTime** (время, прошедшее с последнего кадра) в секундах.</td>
+            </tr>
+            <tr>
+                <td><code>Clock.WaitSeconds(seconds)</code></td>
+                <td>**Асинхронный.** Используется с <code>await</code> для создания задержки в коде, сохраняя при этом отрисовку.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>3.2. Ввод с клавиатуры и мыши</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Команда</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Keyboard.isKeyPressed('W')</code></td>
+                <td>Проверяет, нажата ли клавиша (используйте верхний регистр).</td>
+            </tr>
+            <tr>
+                <td><code>Mouse.GetPosition(window)</code></td>
+                <td>Возвращает текущие координаты курсора <code>{ x, y }</code> относительно окна.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    ---
+
+    <h2>4. Класс SuperUpdate (Управление сценой)</h2>
+
+    <p>Класс-посредник для удобного управления объектами, объединяющий графический и физический компоненты под одним **именем**.</p>
+
+    <h3>4.1. Класс <code>SuperUpdate.GameOBJN</code></h3>
+    <p>Единая сущность для объединения компонентов:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Свойство</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>name</code></td>
+                <td>Уникальное имя объекта для поиска.</td>
+            </tr>
+            <tr>
+                <td><code>d2Gun</code></td>
+                <td>Графический компонент (<code>GnuEngenSFML.D2Gun</code>).</td>
+            </tr>
+            <tr>
+                <td><code>gameObject</code></td>
+                <td>Физический компонент (<code>GameEngine.GameObject</code>).</td>
+            </tr>
+            <tr>
+                <td><code>gnuType</code></td>
+                <td>Тип компонента, который управляет объектом (<code>GnuType.Gnu</code> или <code>GnuType.Engen</code>).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="download-bar">
+        <a href="https://codeload.github.com/PerrotSoft/PEngen-Web/zip/refs/heads/main" class="download-button" download="PEngine.js">Скачать PEngine Web</a>
+    </div>
+</div>
+
+</body>
+</html>
